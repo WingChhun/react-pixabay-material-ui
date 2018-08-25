@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import {GridList, GridTitle} from 'material-ui/GridList';
+import {GridList, GridTile} from 'material-ui/GridList';
 
 import IconButton from 'material-ui/IconButton';
 import ZoomIn from 'material-ui/svg-icons/action/zoom-in';
@@ -14,23 +14,62 @@ class ImageResults extends Component {
     {
         super(props);
 
+        this.state = {
+            images: props.images
+        }
     }
 
-    render()
-    {
+    renderImageList = () => {
+        const {images} = this.props;
+        let imageListContent;
+
+        return imageListContent = (images.map(img => {
+
+            let actionIcon = (
+                <IconButton>
+                    <ZoomIn color="white"/>
+                </IconButton>
+            );
+            let subtitle = (
+
+                <span>by
+                    <strong>{img.user}</strong>
+                </span>
+            );
+            return (
+                <GridTile
+                    actionIcon={actionIcon}
+                    subtitle={subtitle}
+                    title={img.tags}
+                    key={img.id}>
+
+                    <img src={img.largeImageURL}/>
+
+                </GridTile>
+            )
+        }))
+    };
+
+    render() {
+        const {images} = this.state
+
         return (
 
-            <div></div>
+            <GridList cols={3}>
+                {this.renderImageList()}
+
+            </GridList>
 
         )
     }
-
 }
 
 ImageResults.propTypes = {
-
     images: PropTypes.array.isRequired
+};
 
-}
+ImageResults.defaultProps = {
+    images: []
+};
 
 export default ImageResults;
