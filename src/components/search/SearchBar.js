@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -25,6 +26,11 @@ class Search extends Component {
     handleChange = field => event => {
 
         const {searchText, amount} = this.state;
+        const value = event
+            .target
+            .value
+            .trim();
+
         switch (field) {
 
             case "amount":
@@ -33,8 +39,15 @@ class Search extends Component {
                 break;
 
             case "search":
-                console.log('search', field);
-                break;
+                console.log('search', value);
+
+                this.setState({
+                    searchText: value
+                }, () => {
+
+                    this.getAPI();
+                });
+                return;
 
             default:
 
@@ -43,8 +56,18 @@ class Search extends Component {
 
     }
 
-    render()
-    {
+    getAPI = () => {
+
+        const {apiUrl, searchText, amount} = this.state;
+        axios
+            .get(`${apiUrl}/?key=${API_KEY}&q=${searchText}&image_type=photo&per_page=${amount}&safesearch=true`)
+            .then(res => this.setState({images: res.data.hits}))
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    render() {
 
         const {searchText, amount} = this.state;
 
