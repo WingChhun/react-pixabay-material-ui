@@ -4,6 +4,7 @@ import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import ImageResults from "../image-results/imageResults";
 import {API_KEY} from "../../constants.js";
 
 class Search extends Component {
@@ -17,7 +18,7 @@ class Search extends Component {
             searchText: '',
             amount: 15,
             apiUrl: "https://pixabay.com/api",
-            apiKey: API_KEY,
+
             images: []
         }
     }
@@ -76,7 +77,7 @@ class Search extends Component {
 
     render() {
 
-        const {searchText, amount} = this.state;
+        const {images, searchText, amount} = this.state;
 
         return (
             <div>
@@ -101,6 +102,7 @@ class Search extends Component {
                     <MenuItem value ={1} primaryText="Hello"/>
                     <MenuItem value ={1} primaryText="Hello"/>
                 </SelectField>
+                <br/> {images.length > 0 && (<ImageResults images={images}/>)}
 
             </div>
         )
