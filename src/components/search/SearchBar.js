@@ -56,7 +56,14 @@ class Search extends Component {
 
     handleAmountChange = (event, index, value) => {
 
-        this.setState({amount: value})
+        this.setState({
+            amount: value
+        }, () => {
+
+            this.state.searchText
+                ? this.getAPI()
+                : null;
+        })
 
     }
 
@@ -98,11 +105,11 @@ class Search extends Component {
                     value={amount}
                     floatingLabelText="Amount"
                     onChange={this.handleAmountChange}>
-                    <MenuItem value ={1} primaryText="Hello"/>
-                    <MenuItem value ={1} primaryText="Hello"/>
-                    <MenuItem value ={1} primaryText="Hello"/>
-                    <MenuItem value ={1} primaryText="Hello"/>
-                    <MenuItem value ={1} primaryText="Hello"/>
+                    <MenuItem value ={5} primaryText="5"/>
+                    <MenuItem value ={10} primaryText="10"/>
+                    <MenuItem value ={20} primaryText="20"/>
+                    <MenuItem value ={50} primaryText="50"/>
+                    <MenuItem value ={100} primaryText="100"/>
                 </SelectField>
 
                 <br/> {images.length > 0 && (<ImageResults images={images}/>)}
