@@ -34,19 +34,16 @@ class Search extends Component {
 
         switch (field) {
 
-            case "amount":
-                console.log("amount ", field);
-
-                break;
-
             case "search":
                 console.log('search', value);
 
                 this.setState({
                     searchText: value
                 }, () => {
+                    !value || value === ''
+                        ? this.getAPI(false)
+                        : this.getAPI(true);
 
-                    this.getAPI();
                 });
                 return;
 
@@ -63,12 +60,17 @@ class Search extends Component {
 
     }
 
-    getAPI = () => {
+    getAPI = (FETCH_API) => {
 
         const {apiUrl, searchText, amount} = this.state;
+
         axios
             .get(`${apiUrl}/?key=${API_KEY}&q=${searchText}&image_type=photo&per_page=${amount}&safesearch=true`)
-            .then(res => this.setState({images: res.data.hits}))
+            .then(res => this.setState({
+                images: FETCH_API
+                    ? res.data.hits
+                    : []
+            }))
             .catch(err => {
                 console.log(err)
             })
