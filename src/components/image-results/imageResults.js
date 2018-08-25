@@ -15,18 +15,25 @@ class ImageResults extends Component {
         super(props);
 
         this.state = {
-            images: props.images
+            images: props.images,
+            open: false,
+            currentImg: ""
+
         }
     }
 
+    componentWillReceiveProps = props => {
+        this.setState({images: props.images});
+    }
+
     renderImageList = () => {
-        const {images} = this.props;
+        const {images} = this.state;
         let imageListContent;
 
         return imageListContent = (images.map(img => {
 
             let actionIcon = (
-                <IconButton>
+                <IconButton onClick={this.handleOpen(img)}>
                     <ZoomIn color="white"/>
                 </IconButton>
             );
@@ -50,26 +57,62 @@ class ImageResults extends Component {
         }))
     };
 
+    handleOpen = img => event => {
+        const {largeImageURL} = img;
+
+        this.setState({currentImg: img.largeImageURL, open: true})
+    }
+
+    handleClose = () => {
+        this.setState({open: false});
+    }
+
+    renderDialog = () => {
+
+        const actions = [< FlatButton label = {
+                "Close"
+            }
+            primary onClick = {
+                this.handleClose
+            } />];
+        return (
+            <Dialog
+                actions
+                ={actions}
+                modal={false}
+                open
+                ={this.state.open}
+                onRequestClose={this.handleClose}>
+                <img
+                    src={this.state.currentImg}
+                    alt=""
+                    style={{
+                    width: '100%'
+                }}/>
+            </Dialog>
+        );
+    }
     render() {
-        const {images} = this.state
+        const {images} = this.state;
 
         return (
 
-            <GridList cols={3}>
-                {this.renderImageList()}
+            <div>
+                <GridList cols={3}>
+                    {this.renderImageList()}
 
-            </GridList>
+                </GridList >
+                {this.renderDialog()}
 
+            </div>
         )
     }
 }
-
 ImageResults.propTypes = {
     images: PropTypes.array.isRequired
 };
-
 ImageResults.defaultProps = {
     images: []
-};
+}
 
 export default ImageResults;

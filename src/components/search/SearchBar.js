@@ -104,6 +104,7 @@ class Search extends Component {
                     <MenuItem value ={1} primaryText="Hello"/>
                     <MenuItem value ={1} primaryText="Hello"/>
                 </SelectField>
+
                 <br/> {images.length > 0 && (<ImageResults images={images}/>)}
 
             </div>
