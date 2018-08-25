@@ -56,6 +56,12 @@ class Search extends Component {
 
     }
 
+    handleAmountChange = (event, index, value) => {
+
+        this.setState({amount: value})
+
+    }
+
     getAPI = () => {
 
         const {apiUrl, searchText, amount} = this.state;
@@ -65,6 +71,7 @@ class Search extends Component {
             .catch(err => {
                 console.log(err)
             })
+
     }
 
     render() {
@@ -87,8 +94,7 @@ class Search extends Component {
                     name="amount"
                     value={amount}
                     floatingLabelText="Amount"
-                    onChange={this.handleChange("amount")}>
-
+                    onChange={this.handleAmountChange}>
                     <MenuItem value ={1} primaryText="Hello"/>
                     <MenuItem value ={1} primaryText="Hello"/>
                     <MenuItem value ={1} primaryText="Hello"/>
@@ -98,9 +104,7 @@ class Search extends Component {
 
             </div>
         )
-
     }
-
 }
 
-export default Search;
+export default Search
